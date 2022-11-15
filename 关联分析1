@@ -1,0 +1,47 @@
+import pandas as pd
+
+#用字典获得一个DataFrame
+dict_1 = {'年龄': [23, 22, 21], '岗位': ['客服', '运营', '公关'], '年购买量': [10, 15, 8]}
+jobs_df = pd.DataFrame(dict_1)
+
+#用嵌套列表获得一个DataFrame
+goods_info = [
+    ['巧克力', 77.675, '47箱', '广东佛山仓'], 
+    ['牛奶', 58.755, '40箱', '广东揭阳仓'], 
+    ['威化饼干', 7.385, '285盒', '广西南宁仓'], 
+    ['火腿肠', 34.823, '20件', '广西柳州仓'], 
+    ['巧克力', 62.648, '30箱', '广东揭阳仓'], 
+    ['牛奶', 45.75, '12箱', '广西柳州仓'], 
+    ['威化饼干', 5.235, '148盒', '广东佛山仓'], 
+    ['火腿肠', 33.736, '28件', '广东佛山仓']
+]
+
+goods_df = pd.DataFrame(goods_info)
+#添加一条列索引值
+newgoods_df = pd.DataFrame(goods_info, columns=['名称', '单价', '库存', '地址'])
+#修改列名
+newgoods_df.columns = (['名称','单价','库存量','地址'])
+
+# 依照【单价】列的数据进行排序
+sorted_goods = newgoods_df.sort_values(by='单价')
+# 提取【单价】列的数据进行排序
+newgoods_df['单价'].sort_values()
+# 重置数据 sorted_goods 的行索引
+reset_goods = sorted_goods.reset_index(drop=True)
+#将单价保留两位小数
+reset_goods['单价'] = round(reset_goods['单价'], 2)
+
+# 定义函数 new_func()，去掉最后一个字符
+def new_func(data):
+    number = data[:-1]
+    return int(number)
+# 使用 agg() 方法对【库存】列的数据进行切片处理
+reset_goods['库存'] = reset_goods['库存'].agg(new_func)
+
+# 计算各食品的总库存量
+reset_goods.groupby('名称')['库存'].sum()
+
+
+# 同时计算各食品的平均单价和总库存量
+reset_goods.groupby('名称').agg({'单价':'mean','库存':'sum'})
+print(reset_goods)
