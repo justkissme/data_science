@@ -1,0 +1,63 @@
+import pandas as pd
+
+#导入文件
+mask_data =pd.read_csv('E:\Python\自动化办公\数据处理\课程素材 (1)\课程素材\工作\mask_data.csv',encoding = 'utf-8')
+
+#处理缺失值
+
+#查看文件基本数据信息
+mask_data.info()
+#查看前五行信息
+mask_data.head()
+#查看后五行信息
+mask_data.tail()
+
+#查看缺失值信息,显示True为缺信息
+mask_data.isna()
+#删除缺失值信息，并赋值给mask_data
+mask_data = mask_data.dropna()
+# 替换'省'中的缺失值为'湖北'
+#mask_data['省'] = mask_data['省'].fillna('湖北')
+
+
+#删除表格中特定列的缺失值
+#mask_data = mask_data.dropna(subset='')
+
+
+
+#处理重复值
+
+#查找重复值
+mask_data.duplicated()
+#查看重复值
+mask_data[mask_data.duplicated()]
+#删除重复值
+mask_data = mask_data.drop_duplicates()
+
+
+#处理异常值
+
+# 查看 mask_data 的描述性统计信息
+mask_data.describe()
+# 查看单价小于等于 200 的数据
+mask_data[mask_data['单价'] <= 200]
+# 筛选单价小于等于 200 的数据
+mask_data = mask_data[mask_data['单价'] <= 200]
+# 筛选订单量大于 0 的数据
+mask_data = mask_data[mask_data['订单量']>0]
+
+
+#整理数据
+
+# 转换日期数据，并设置对应的日期格式
+date_data = pd.to_datetime(mask_data['日期'], format = '%Y-%m-%d')
+# 提取日期数据中的月份信息
+month_data = date_data.dt.month
+# 将月份数据添加到原数据中
+mask_data['月份'] = month_data
+
+
+#数据写入
+
+# 保存清洗干净的数据，参数（index = False）取消行索引
+mask_data.to_csv('E:\Python\自动化办公\数据处理\课程素材 (1)\课程素材\工作\mask_data_clean.csv', encoding = 'utf-8',index=False)
