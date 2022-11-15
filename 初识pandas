@@ -1,0 +1,16 @@
+#导入pandas
+import pandas as pd
+
+#创建Series
+first_name = pd.Series(['赵','钱','孙','李'])
+#设定Series对象的索引
+first_name = pd.Series(['赵','钱','孙','李'],index=['学生1','学生2','学生3','学生4'])
+
+#创建DataFrame
+new_df = pd.DataFrame({'年龄': [23, 22, 21],'岗位': ['客服', '运营', '公关'],'年购买量': [10, 15, 8]})
+
+#提取DataFrame某一列的信息,查看数据类型
+#print(type(new_df['年龄']))
+
+#导入数据
+my_data = pd.read_csv('E:\Python\自动化办公\数据处理\课程素材\mask_data.csv',encoding='utf-8')
