@@ -1,0 +1,29 @@
+import pandas as pd
+
+grade_df = pd.DataFrame({'班级': [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+ '性别': ['男', '男', '女', '女', '女', '男', '男', '男', '女', '女'],
+ '眼镜': ['是', '否', '是', '否', '是', '是', '是', '否', '否', '否'],
+ '成绩': [95, 90, 96, 92, 94, 85, 87, 80, 81, 86]})
+# 对班级进行分组聚合操作--单层分组聚合
+grade_df1 = grade_df.groupby('班级')['成绩'].mean()
+#最小值 min()
+#最大值 max()
+#标准差 std()
+#平均值 mean()
+#中位数 median()
+#总和 sum()
+#数量 count()
+#频数分布 value_counts()
+
+# 获取不同性别的学生处于不同班级时的平均分--多层分组聚合
+grade_df4 = grade_df.groupby(['性别', '班级'])['成绩'].mean()
+#多层分组聚合的直观表示
+grade_df6 =grade_df.groupby(['班级','眼镜','性别'])['成绩'].mean()
+
+#导入文件
+mask_data_clean = pd.read_csv('E:\Python\自动化办公\数据处理\课程素材\课程素材2\工作\mask_data_clean.csv')
+# 获取每月销售额总数
+sales_income = mask_data_clean.groupby('月份')['销售额'].sum()
+# 获取各月各省总订单量
+month_order1 = mask_data_clean.groupby(['省', '月份'])['订单量'].sum()
+print(month_order1)
